@@ -1,6 +1,6 @@
 /**
  * Author: kpw29
- * Date: 2020-02-20
+ * Date: 2021-08-22
  * License: CC0
  * Source: Folklore
  * Description: Centroid decomposition template.

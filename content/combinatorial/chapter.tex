@@ -57,7 +57,7 @@
 		\normalsize
 
 	\subsection{Stirling numbers of the first kind}
-		Number of permutations on $n$ items with $k$ cycles.
+		Number of permutations on $n$ items with $k$ cycles. Alternatively, number of permutations on $n$ items with $k$ prefix maxima. You can compute $c(n,k)$ in $O(n log^2)$ using the second formula, D\& C and FFT.
 		\begin{align*}
 			&c(n,k) = c(n-1,k-1) + (n-1) c(n-1,k),\ c(0,0) = 1 \\
 			&\textstyle \sum_{k=0}^n c(n,k)x^k = x(x+1) \dots (x+n-1)
