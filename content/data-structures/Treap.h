@@ -11,57 +11,41 @@
 #pragma once
 
 struct Node {
-	Node *l = 0, *r = 0;
-	int val, y, c = 1;
-	Node(int val) : val(val), y(rand()) {}
+	Node *c[2] = {0, 0};
+	int prio, s = 1; // by default this just counts number of children
+	Node() : prio(rand()) {}
 	void recalc();
 };
 
-int cnt(Node* n) { return n ? n->c : 0; }
-void Node::recalc() { c = cnt(l) + cnt(r) + 1; }
+int sum(Node* n) { return n ? n->s: 0; }
+void Node::recalc() { // push lazy propagation here
+	s = sum(c[0]) + 1 + sum(c[1]); 
+} 
 
-template<class F> void each(Node* n, F f) {
-	if (n) { each(n->l, f); f(n->val); each(n->r, f); }
+Node* attach(Node *l, Node* n, Node *r){
+	n->c[0] = l, n->c[1] = r;
+	n->recalc();
+	return n;
 }
 
 pair<Node*, Node*> split(Node* n, int k) {
 	if (!n) return {};
-	if (cnt(n->l) >= k) { // "n->val >= k" for lower_bound(k)
-		auto pa = split(n->l, k);
-		n->l = pa.second;
-		n->recalc();
-		return {pa.first, n};
-	} else {
-		auto pa = split(n->r, k - cnt(n->l) - 1); // and just "k"
-		n->r = pa.first;
-		n->recalc();
-		return {n, pa.second};
+	n->recalc();
+	if (sum(n->c[0]) >= k) { // "n->val >= k" for lower_bound(k)
+		auto [l, r] = split(n->c[0], k);
+		return {l, attach(r, n, n->c[1])};
+	} else { 
+		auto [l, r] = split(n->c[1], k - 1 - sum(n->c[0])); // and just "k"
+		return {attach(n->c[0], n, l), r};
 	}
 }
 
 Node* merge(Node* l, Node* r) {
 	if (!l) return r;
 	if (!r) return l;
-	if (l->y > r->y) {
-		l->r = merge(l->r, r);
-		l->recalc();
-		return l;
-	} else {
-		r->l = merge(l, r->l);
-		r->recalc();
-		return r;
-	}
-}
-
-Node* ins(Node* t, Node* n, int pos) {
-	auto pa = split(t, pos);
-	return merge(merge(pa.first, n), pa.second);
-}
-
-// Example application: move the range [l, r) to index k
-void move(Node*& t, int l, int r, int k) {
-	Node *a, *b, *c;
-	tie(a,b) = split(t, l); tie(b,c) = split(b, r - l);
-	if (k <= l) t = merge(ins(a, b, k), c);
-	else t = merge(a, ins(c, b, k - r));
+	l->recalc(); // only needed for lazy propagation
+	r->recalc();
+	return l->prio > r->prio ?
+		attach(l->c[0], l, merge(l->c[1], r)) :
+		attach(merge(l, r->c[0]), r, r->c[1]);
 }
