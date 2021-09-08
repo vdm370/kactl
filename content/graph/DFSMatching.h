@@ -15,24 +15,24 @@ struct matching {
   vi odw, skoj;
   matching(vector <vi> &vec) : v(vec), n(sz(vec)), odw(n, 0), skoj(n, -1) {}
   bool dfs(int x) {
-	  if (odw[x]) return 0;
-	  odw[x] = 1;
-	  trav(u, v[x]) {
-		  if (skoj[u] == -1 || dfs(skoj[u])) {
-			  skoj[u] = x;
-			  skoj[x] = u;
-			  return 1;
-		  }
-	  }
-	  return 0;
+      if (odw[x]) return 0;
+      odw[x] = 1;
+      trav(u, v[x]) {
+          if (skoj[u] == -1 || dfs(skoj[u])) {
+              skoj[u] = x;
+              skoj[x] = u;
+              return 1;
+          }
+      }
+      return 0;
   }
   int solve() {
     int ok = 1, res = 0;
     while (ok--) {
       fill(all(odw), 0);
       rep(i, 0, n) {
-		  if (skoj[i] == -1 && dfs(i)) res++, ok = 1;
-	  }
+          if (skoj[i] == -1 && dfs(i)) res++, ok = 1;
+      }
     }
     return res;
   }

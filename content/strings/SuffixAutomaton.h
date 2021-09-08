@@ -25,7 +25,7 @@ using namespace std;
     SuffixAutomaton() {
         new_node.fill(-1);     // -1 - state nonexistent
         edges = {new_node};  // start state for empty string
-	}			
+    }           
     void add_letter(int c) {
         edges.emplace_back(new_node);
         length.emplace_back(length[last] + 1);
@@ -58,17 +58,17 @@ using namespace std;
         for(int c : s) {
             if(edges[q][c] == -1)
                 return false;
-			q = edges[q][c];
-		}
+            q = edges[q][c];
+        }
         return true;
     }
     vector <int> get_terminals() {
-		vector<int> terminals;
-		int p = last;
-		while(p > 0) {
-		  terminals.push_back(p);
-		  p = link[p];
-		}
-		return terminals;
-	}
+        vector<int> terminals;
+        int p = last;
+        while(p > 0) {
+          terminals.push_back(p);
+          p = link[p];
+        }
+        return terminals;
+    }
 };
