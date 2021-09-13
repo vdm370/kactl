@@ -17,7 +17,6 @@ F id() { return F{1, 0}; }
 lazy_segtree<S, op, e, F, mapping, composition, id> seg(vec);
  * Status: tested on atcoder problems
  */
-#pragma once
 template <class S,S (*op)(S, S), S (*e)(),
           class F, S (*mapping)(F, S), F (*composition)(F, F),F (*id)()>
 struct lazy_segtree {

@@ -1,5 +1,5 @@
 /**
- * Author: Benjamin Qi, Oleksandr Kulkov, chilli
+ * Author: Benjamin Qi, Oleksandr Kulkov, chilli, kpw29
  * Date: 2020-01-12
  * License: CC0
  * Source: https://codeforces.com/blog/entry/53170, https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs%20(12)/Trees%20(10)/HLD%20(10.3).h
@@ -11,20 +11,19 @@
  * values are stored in the edges, as opposed to the nodes. All values
  * initialized to the segtree default. Root must be 0.
  * Time: O((\log N)^2)
- * Status: stress-tested against old HLD
+ * Status: non-exhaustive testing on library-checker website.
  */
-#pragma once
-
-#include "../data-structures/LazySegmentTree.h"
-
-template <bool VALS_EDGES> struct HLD {
+template <bool VALS_EDGES,
+class S, S (*op)(S, S), S (*e)(),
+class F, S (*mapping)(F, S), F (*composition)(F, F),F (*id)()>
+struct HLD {
 	int N, tim = 0;
 	vector<vi> adj;
 	vi par, siz, depth, rt, pos;
-	Node *tree;
+	lazy_segtree <S, op, e, F, mapping, composition, id> tree;
 	HLD(vector<vi> adj_)
 		: N(sz(adj_)), adj(adj_), par(N, -1), siz(N, 1), depth(N),
-		  rt(N),pos(N),tree(new Node(0, N)){ dfsSz(0); dfsHld(0); }
+		  rt(N),pos(N),tree(vector<S>(N, e())) { dfsSz(0); dfsHld(0); }
 	void dfsSz(int v) {
 		if (par[v] != -1) adj[v].erase(find(all(adj[v]), par[v]));
 		for (int& u : adj[v]) {
@@ -41,25 +40,28 @@ template <bool VALS_EDGES> struct HLD {
 			dfsHld(u);
 		}
 	}
-	template <class B> void process(int u, int v, B op) {
+	template <class B> void process(int u, int v, B query) {
 		for (; rt[u] != rt[v]; v = par[rt[v]]) {
 			if (depth[rt[u]] > depth[rt[v]]) swap(u, v);
-			op(pos[rt[v]], pos[v] + 1);
+			query(pos[rt[v]], pos[v] + 1);
 		}
 		if (depth[u] > depth[v]) swap(u, v);
-		op(pos[u] + VALS_EDGES, pos[v] + 1);
+		query(pos[u] + VALS_EDGES, pos[v] + 1);
 	}
-	void modifyPath(int u, int v, int val) {
-		process(u, v, [&](int l, int r) { tree->add(l, r, val); });
+	void path_apply(int u, int v, F func) {
+		process(u, v, [&](int l, int r) { tree.apply(l, r, func); });
 	}
-	int queryPath(int u, int v) { // Modify depending on problem
-		int res = -1e9;
+	S path_prod(int u, int v) {
+		S res = e();
 		process(u, v, [&](int l, int r) {
-				res = max(res, tree->query(l, r));
+			res = op(res, tree.prod(l, r));
 		});
 		return res;
 	}
-	int querySubtree(int v) { // modifySubtree is similar
-		return tree->query(pos[v] + VALS_EDGES, pos[v] + siz[v]);
+	void subtree_apply(int v, F func) {
+		tree.apply(pos[v] + VALS_EDGES, pos[v] + siz[v], func);
+	}
+	S subtree_prod(int v) {
+		return tree.prod(pos[v] + VALS_EDGES, pos[v] + siz[v]);
 	}
 };
