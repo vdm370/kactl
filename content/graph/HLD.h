@@ -1,11 +1,12 @@
 /**
- * Author: Benjamin Qi, Oleksandr Kulkov, chilli, kpw29
+ * Author: Benjamin Qi, Oleksandr Kulkov, chilli, kpw29 
  * Date: 2020-01-12
  * License: CC0
  * Description: Handles subtree and path queries simultaneously in one lazy\_segtree. Each subtree is $1$ segment, while path is $O(\log N)$ segments in the tree. $VALS\_EDGES$ being true means that values are stored in the edges, as opposed to the nodes. All values are initialized to the segtree default.
  * Time: O((\log N)^2), one logarithm for subtrees.
  * Status: non-exhaustive testing on library-checker website.
  */
+#include "../data-structures/LazySegmentTree.h"
 template <bool VALS_EDGES,
 class S, S(*op)(S, S), S(*e)(),
 class F, S (*mapping)(F, S), F(*composition)(F, F), F (*id)()>
