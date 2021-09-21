@@ -16,8 +16,7 @@ template <class S, S (*op)(S, S), S (*e)()> struct segtree {
 	void update(int k) {d[k] = op(d[2 * k], d[2 * k + 1]); }
 	public:
 	segtree(const vector <S>&v) : n(sz(v)) {
-		log = (32 - __builtin_clz(n));
-		size = 1 << log;
+		log = (32 - __builtin_clz(n)); size = 1 << log;
 		d = vector<S>(2*size, e());
 		rep(i, 0, n) d[size+i] = v[i];
 		for (int i = size - 1; i >= 1; --i) update(i);

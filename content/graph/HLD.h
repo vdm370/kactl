@@ -52,4 +52,10 @@ struct HLD {
 		});
 		return res;
 	}
+	void subtree_apply(int v, F func) {
+		tree.apply(pos[v] + VALS_EDGES, pos[v] + siz[v], func);
+	}
+	S subtree_prod(int v) {
+		return tree.prod(pos[v] + VALS_EDGES, pos[v] + siz[v]);
+	}
 };

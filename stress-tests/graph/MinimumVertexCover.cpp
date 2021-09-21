@@ -29,27 +29,31 @@ int main() {
 		int N = rand() % 20, M = rand() % 20;
 		int prop = rand();
 		vector<vi> gr(N);
+		vector<vi> newgraph(N+M);
 		vi left(N), right(M);
 		rep(i,0,N) rep(j,0,M) if (rand() < prop) {
 			gr[i].push_back(j);
+			newgraph[i].push_back(j+N);
+			newgraph[j+N].push_back(i);
 		}
 		auto verify = [&](vi& cover) {
+			left.clear(); left.resize(N, 0);
+			right.clear(); right.resize(M, 0);
 			for(auto &x: cover) {
 				if (x < N) left[x] = 1;
 				else right[x - N] = 1;
 			}
 			rep(i,0,N) if (!left[i]) for(auto &j:gr[i]) {
-				assert(right[j]);
-				/* if (!right[j]) {
+				if (!right[j]) {
 					cout << N << ' ' << M << endl;
 					rep(i,0,N) for(auto &j: gr[i]) cout << i << " - " << j << endl;
 					cout << "yields " << sz(cover) << endl;
 					for(auto &x: cover) cout << x << endl;
 					abort();
-				} */
+				}
 			}
 		};
-		vi cover1 = cover(gr, N, M);
+		vi cover1 = cover(newgraph, N, M);
 		vi cover2 = coverHK(gr, N, M);
 		assert(sz(cover1) == sz(cover2));
 		verify(cover1);
