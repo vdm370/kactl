@@ -1,74 +1,89 @@
 #include<bits/stdc++.h>
 using namespace std;
 /**
- * Author: tnowak
+ * Author: kpw29 rework of cp-algorithms.com
  * Date: 2021-08-22
  * License: CC0
  * Description: Suffix automaton. Constructs a DAG efficiently maintaining
- * equivalence classes of string occurrences. LOOK AT THE PICTURE! Many things done by DP on it. Examples:
- * The number of distinct substrings is the number of different paths in the automaton.
- * These can be calculated recursively by calculating for each node the number of different paths starting from that node.
- * The number of different paths starting from a node is the sum of the corresponding numbers of its direct successors,
- * plus 1 corresponding to the path that does not leave the node.
- * Each occurrence of string w is a path from its node to some terminal node
+ * equivalence classes of string occurrences. LOOK AT THE PICTURE!!!
+ * Each distinct string is some path through the automaton.
+ * Each occurrence of string w is a path from its node to some terminal node.
+ * At most 2N states and 3N edges in the whole automaton.
+ * Many things done by DP, add calculations in init()
  * Time: O(n \alpha) or O(n log \alpha)
  * If you need suffix tree, use suffix links in SA for reversed string.
  * Status: tested on some string problems
  */
- struct SuffixAutomaton {
-    static constexpr int sigma = 26;
-    using Node = array<int, sigma>; // or map<int, int>
-    Node new_node;
-    vector<Node> edges;
-    vector<int> link = {-1}, length = {0};
-    int last = 0;
-    SuffixAutomaton() {
-        new_node.fill(-1);     // -1 - state nonexistent
-        edges = {new_node};  // start state for empty string
-    }           
-    void add_letter(int c) {
-        edges.emplace_back(new_node);
-        length.emplace_back(length[last] + 1);
-        link.emplace_back(0);
-        int r = edges.size() - 1, p = last;
-        while(p != -1 && edges[p][c] == -1) {
-            edges[p][c] = r;
-            p = link[p];
-        }
-        if(p != -1) {
-            int q = edges[p][c];
-            if(length[p] + 1 == length[q])
-                link[r] = q;
-            else {
-                edges.emplace_back(edges[q]);
-                length.emplace_back(length[p] + 1);
-                link.emplace_back(link[q]);
-                int q_prim = edges.size() - 1;
-                link[q] = link[r] = q_prim;
-                while(p != -1 && edges[p][c] == q) {
-                    edges[p][c] = q_prim;
-                    p = link[p];
-                }
-            }
-        }
-        last = r;
-    }
-    bool is_inside(vector<int> &s) {
-        int q = 0;
-        for(int c : s) {
-            if(edges[q][c] == -1)
-                return false;
-            q = edges[q][c];
-        }
-        return true;
-    }
-    vector <int> get_terminals() {
-        vector<int> terminals;
-        int p = last;
-        while(p > 0) {
-          terminals.push_back(p);
-          p = link[p];
-        }
-        return terminals;
-    }
+ struct state {
+    int len, link;
+    map<char, int> next;
+    state() : len(0), link(-1) {}
+};
+struct suffix_automaton {
+	string input;
+	vector <state> st;
+	int last, size;
+	vi top; vector<ll> cnt; vector<bool> odw; 
+	suffix_automaton(const string &s) : input(s), last(0), size(1) {
+		st.pb(state());
+		trav(c, s) add_letter(c);
+		init();
+	}
+	void dfs(int x) {
+		odw[x] = 1;
+		for (auto [lett, node] : st[x].next)
+			if (!odw[node]) dfs(node);
+		top.pb(x);
+	}
+	void init() {
+		int p = last;
+		cnt.resize(size, 0); odw.resize(size, 0);
+		while (p > 0) cnt[p]++, p = st[p].link;
+		dfs(0);
+		reverse(all(top)); assert(top[0] == 0);
+		for (int i = sz(top)-1; i>0; --i) {
+			for (auto [lett, node] : st[top[i]].next) {
+				cnt[top[i]] += cnt[node]; //dp calculations here
+			}
+		}
+	}
+	void add_letter(char c) {
+		st.pb(state());
+		int cur = size++;
+		st[cur].len = st[last].len + 1;
+		int p = last;
+		while (p != -1 && !st[p].next.count(c)) {
+			st[p].next[c] = cur;
+			p = st[p].link;
+		}
+		if (p == -1) {
+			st[cur].link = 0;
+		} else {
+			int q = st[p].next[c];
+			if (st[p].len + 1 == st[q].len) {
+				st[cur].link = q;
+			} else {
+				st.pb(state());
+				int clone = size++;
+				st[clone].len = st[p].len + 1;
+				st[clone].next = st[q].next;
+				st[clone].link = st[q].link;
+				while (p != -1 && st[p].next[c] == q) {
+					st[p].next[c] = clone;
+					p = st[p].link;
+				}
+				st[q].link = st[cur].link = clone;
+			}
+		}
+		last = cur;
+	}
+	int search(const string &s) {
+		int q = 0;
+		trav(c, s) {
+			if (st[q].next.find(c) == st[q].next.end()) return 0;
+			q = st[q].next[c];
+		}
+		return q;
+	}
+	ll count_occs(string &s) { return cnt[search(s)]; }
 };
