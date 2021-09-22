@@ -4,7 +4,7 @@
  * License: CC0
  * Source: https://codeforces.com/blog/entry/92339?#comment-810242
  * Description: Matching for general graphs using Blossom algorithm.
- * Time: O(NM, surprisingly fast in practice)
+ * Time: O(NM) surprisingly fast in practice
  * Status: tested on library-checker
  */
 
