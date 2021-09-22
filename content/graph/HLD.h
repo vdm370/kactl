@@ -34,13 +34,17 @@ struct HLD {
 			dfsHld(u);
 		}
 	}
-	template<class B> void process(int u, int v, B query) {
+	template<class B> int process(int u, int v, B query) {
 		for (; rt[u] != rt[v]; v = par[rt[v]]) {
 			if (depth[rt[u]] > depth[rt[v]]) swap(u, v);
 			query(pos[rt[v]], pos[v] + 1);
 		}
 		if (depth[u] > depth[v]) swap(u, v);
 		query(pos[u] + VALS_EDGES, pos[v] + 1);
+		return u;
+	}
+	int lca(int u, int v) {
+		return process(u, v, [](int l, int r) {});
 	}
 	void path_apply(int u, int v, F func) {
 		process(u, v, [&](int l, int r) {tree.apply(l, r, func); });
