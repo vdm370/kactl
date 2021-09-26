@@ -9,17 +9,6 @@
  * Status: tested on SPOJ INTEST, unit tested
  */
 #pragma once
-
-inline char gc() { // like getchar()
-	static char buf[1 << 16];
-	static size_t bc, be;
-	if (bc >= be) {
-		buf[0] = 0, bc = 0;
-		be = fread(buf, 1, sizeof(buf), stdin);
-	}
-	return buf[bc++]; // returns 0 on EOF
-}
-
 int readInt() {
 	int a, c;
 	while ((a = gc()) < 40);
