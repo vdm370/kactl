@@ -14,7 +14,7 @@ using namespace std;
  * If you need suffix tree, use suffix links in SA for reversed string.
  * Status: tested on some string problems
  */
- struct state {
+struct state {
     int len, link;
     map<char, int> next;
     state() : len(0), link(-1) {}
@@ -86,4 +86,22 @@ struct suffix_automaton {
 		return q;
 	}
 	ll count_occs(string &s) { return cnt[search(s)]; }
+	string lcs(const string &T) {
+		int v = 0, l = 0, best = 0, bestpos = 0;
+		rep(i, 0, sz(T)) {
+			while (v && !st[v].next.count(T[i])) {
+				v = st[v].link;
+				l = st[v].len;
+			}
+			if (st[v].next.count(T[i])) {
+				v = st [v].next[T[i]];
+				l++;
+			}
+			if (l > best) {
+				best = l;
+				bestpos = i;
+			}
+		}
+		return T.substr(bestpos - best + 1, best);
+	}
 };

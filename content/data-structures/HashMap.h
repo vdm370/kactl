@@ -1,28 +1,19 @@
 /**
- * Author: Simon Lindholm, chilli
- * Date: 2018-07-23
- * License: CC0
- * Source: http://codeforces.com/blog/entry/60737
- * Description: Hash map with mostly the same API as unordered\_map, but \tilde
- * 3x faster. Uses 1.5x memory.
- * Initial capacity must be a power of 2 (if provided).
+ * Author: Benjamin Qi
+ * Description: Hash map with the same API as unordered\_map, but \tilde 3x faster.
+ 	* Initial capacity must be a power of 2 if provided.
+ * Source: KACTL
+ * Usage: ht<int,int> h({},{},{},{},{1<<16});
  */
-#pragma once
 
-#include <bits/extc++.h> /** keep-include */
-// To use most bits rather than just the lowest ones:
-struct chash { // large odd number for C
-	const uint64_t C = ll(4e18 * acos(0)) | 71;
-	ll operator()(ll x) const { return __builtin_bswap64(x*C); }
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+struct chash { /// use most bits rather than just the lowest ones
+	const uint64_t C = ll(2e18*PI)+71; // large odd number
+	const int RANDOM = rng();
+	ll operator()(ll x) const {
+		return __builtin_bswap64((x^RANDOM)*C); }
 };
-__gnu_pbds::gp_hash_table<ll,int,chash> h({},{},{},{},{1<<16});
-
-/** For CodeForces, or other places where hacking might be a problem:
-
-const int RANDOM = chrono::high_resolution_clock::now().time_since_epoch().count();
-struct chash { // To use most bits rather than just the lowest ones:
-	const uint64_t C = ll(4e18 * acos(0)) | 71; // large odd number
-	ll operator()(ll x) const { return __builtin_bswap64((x^RANDOM)*C); }
-};
-__gnu_pbds::gp_hash_table<ll, int, chash> h({},{},{},{}, {1 << 16});
-*/
+template<class K,class V> using ht = gp_hash_table<K,V,chash>;
+template<class K,class V> V get(ht<K,V>& u, K x) {
+	auto it = u.find(x); return it == end(u) ? 0 : it->s; }
