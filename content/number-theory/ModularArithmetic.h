@@ -22,9 +22,19 @@ struct mint {
 		ll x, y, g = euclid(a.x, mod, x, y);
 		assert(g == 1); return mint((x + mod) % mod);
 	}
+
+	/**
+	 * Author: Noam527
+	 * Date: 2019-04-24
+	 * License: CC0
+	 * Source: folklore
+	 * Description:
+	 * Status: tested
+	 */
 	mint operator^(ll e) {
-		if (!e) return mint(1);
-		mint r = *this ^ (e / 2); r = r * r;
-		return e&1 ? *this * r : r;
+		ll ans = 1, b = x;
+		for (; e; b = b * b % mod, e /= 2)
+		if (e & 1) ans = ans * b % mod;
+		return ans;
 	}
 };
