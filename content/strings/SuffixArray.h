@@ -12,16 +12,20 @@
  * neighbouring strings in the suffix array:
  * \texttt{lcp[i] = lcp(sa[i], sa[i-1])}, \texttt{lcp[0] = 0}.
  * The input string must not contain any zero bytes.
+ * If you don't need get\_lcp(a,b) then comment out RMQ lines.
  * Time: O(n \log n)
  * Status: stress-tested
  */
 #pragma once
-
+#include "
 struct SuffixArray {
-	vi sa, lcp;
-	SuffixArray(string& s, int lim=256) { // or basic_string<int>
+	vi sa, lcp, rank;
+	int N;
+	RMQ<int> *rmq; 
+	SuffixArray(string& s, int lim=256) : N(sz(s)){
 		int n = sz(s) + 1, k = 0, a, b;
-		vi x(all(s)+1), y(n), ws(max(n, lim)), rank(n);
+		vi x(all(s)+1), y(n), ws(max(n, lim));
+		rank.resize(n);
 		sa = lcp = y, iota(all(sa), 0);
 		for (int j = 0, p = 0; p < n; j = max(1, j * 2), lim = p) {
 			p = j, iota(all(y), n - j);
@@ -38,5 +42,14 @@ struct SuffixArray {
 		for (int i = 0, j; i < n - 1; lcp[rank[i++]] = k)
 			for (k && k--, j = sa[rank[i] - 1];
 					s[i + k] == s[j + k]; k++);
+		
+		rmq = new RMQ(lcp);
+	}
+	int get_lcp(int a, int b) { // lcp of suffixes starting at a,b
+		if (max(a,b) >= N) return 0;
+		if (a == b) return N-a;
+		int t0 = rank[a] + 1, t1 = rank[b] + 1;
+		if (t0 > t1) swap(t0,t1);
+		return rmq->query(t0, t1);
 	}
 };
