@@ -6,6 +6,10 @@
  * Usage: ht<int,int> h({},{},{},{},{1<<16});
  */
 
+/** 
+  * Note from Maja: I can't make this file compile on my machine easily...
+*/
+
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
 struct chash { /// use most bits rather than just the lowest ones

@@ -22,9 +22,9 @@ struct base_centroids {
     vi get_subtrees(vi &pre) { //helper fn which finds ranges [, ) of root's subtrees. 
         vi res = {};
         rep(i, 0, sz(pre)) {
-            if (par[pre[i]] == pre[0]) res.pb(i);
+            if (par[pre[i]] == pre[0]) res.push_back(i);
         }
-        res.pb(sz(pre));
+        res.push_back(sz(pre));
         return res;
     }
     //calculate answers for the current centroid(root). Nodes given in PREORDER
@@ -32,7 +32,7 @@ struct base_centroids {
     private:
     void prep(int x, vi &nodes) {
         odw[x] = 1; sub[x] = 1;
-        nodes.pb(x);
+        nodes.push_back(x);
         trav(u, v[x]) {
             if (!gold[u] && !odw[u]) {
                 prep(u, nodes);
