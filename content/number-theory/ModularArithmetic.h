@@ -10,10 +10,15 @@
 
 #include "euclid.h"
 
+ll safe_mod(ll x, ll m) {
+	ll t = x%m;
+	return t >= 0 ? t : t + m;
+}
+
 struct mint {
 	static const ll mod = 17; // change to something else
 	ll x;
-	mint(ll xx) : x(xx) {}
+	mint(ll xx) : x(safe_mod(xx, mod)) {}
 	mint operator+(mint b) { return mint((x + b.x) % mod); }
 	mint operator-(mint b) { return mint((x - b.x + mod) % mod); }
 	mint operator*(mint b) { return mint((x * b.x) % mod); }

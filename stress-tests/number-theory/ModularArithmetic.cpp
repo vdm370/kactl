@@ -2,7 +2,13 @@
 
 #include "../../content/number-theory/ModularArithmetic.h"
 
+
 int main() {
+    //test construction
+    rep(a,0,mint::mod+1) {
+        assert(mint(a).x == mint(a-mint::mod).x);
+    }
+    
 	rep(a,0,mint::mod) rep(b,1,mint::mod) {
 		mint ma(a);
 		mint mb(b);
