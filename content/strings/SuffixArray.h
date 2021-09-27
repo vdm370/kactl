@@ -17,7 +17,6 @@
  * Status: stress-tested
  */
 #pragma once
-#include "
 struct SuffixArray {
 	vi sa, lcp, rank;
 	int N;
@@ -45,7 +44,7 @@ struct SuffixArray {
 		
 		rmq = new RMQ(lcp);
 	}
-	int get_lcp(int a, int b) { // lcp of suffixes starting at a,b
+	int get_lcp(int a,int b) {//lcp of suffixes starting at a,b
 		if (max(a,b) >= N) return 0;
 		if (a == b) return N-a;
 		int t0 = rank[a] + 1, t1 = rank[b] + 1;

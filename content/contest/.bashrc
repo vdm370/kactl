@@ -1,5 +1,5 @@
 alias cmp='g++ -Wall -Wconversion -Wfatal-errors -g \
-  -std=gnu++17 -fsanitize=undefined,address'
+  -std=gnu++17 -DDEBUG -fsanitize=undefined,address'
 xmodmap -e 'clear lock' -e 'keycode 66=less greater' #caps = <>
 
 test() {
