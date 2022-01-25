@@ -73,7 +73,7 @@ struct LCT {
   }
   void link(int u, int v) { 
     reroot(u); access(v); 
-    t[v].vir = op(t[u].vir, t[u].sub);
+    t[v].vir = op(t[v].vir, t[u].sub);
     t[u].p = v; pull(v);
   }  
   void cut(int u, int v) {
