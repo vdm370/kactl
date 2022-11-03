@@ -1,0 +1,5 @@
+Important Commands
+-Xms2048m -Xmx2048m -Xss256m -ea
+setxkbmap us -variant colemak
+setxkbmap us; xset -r 66
+<probably, there are graphics>
