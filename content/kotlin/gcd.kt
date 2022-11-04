@@ -1,5 +1,13 @@
 package bringtoICPC.Corn
-
+/**
+ * Author: arvindf232
+ * Date: 2022-04-11
+ * License: CC0
+ * Source: me
+ * Description: I don't care
+ * Usage: bruh
+ * Status: bruh
+ */
 tailrec fun gcd(a: Int, b: Int): Int {
     if(b == 0) return a
     return if (a % b == 0) Math.abs(b) else gcd(b, a % b)

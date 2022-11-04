@@ -1,5 +1,13 @@
 package bringtoICPC.DS
-
+/**
+ * Author: arvindf232
+ * Date: 2022-04-11
+ * License: CC0
+ * Source: me
+ * Description: I don't care
+ * Usage: bruh
+ * Status: bruh
+ */
 const val graphWeighed = false
 class Graph(val n:Int, val m:Int, val directed:Boolean) {
     val maxedge = if (directed) m else m * 2

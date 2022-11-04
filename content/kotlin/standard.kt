@@ -1,5 +1,13 @@
 package bringtoICPC
-
+/**
+ * Author: arvindf232
+ * Date: 2022-04-11
+ * License: CC0
+ * Source: me
+ * Description: I don't care
+ * Usage: bruh
+ * Status: bruh
+ */
 // 2022.11.03 at 13:22:33 GMT
 import java.io.BufferedInputStream
 import java.io.File

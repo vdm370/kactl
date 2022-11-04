@@ -1,5 +1,13 @@
 package bringtoICPC
-
+/**
+ * Author: arvindf232
+ * Date: 2022-04-11
+ * License: CC0
+ * Source: me
+ * Description: I don't care
+ * Usage: bruh
+ * Status: bruh
+ */
 
 inline fun BinarySearchFirstTrue(l:Int, r:Int, isTrue:(Int)->Boolean):Int?{
     var L = l

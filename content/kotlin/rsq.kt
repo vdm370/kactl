@@ -1,5 +1,13 @@
 package bringtoICPC.DS
-
+/**
+ * Author: arvindf232
+ * Date: 2022-04-11
+ * License: CC0
+ * Source: me
+ * Description: I don't care
+ * Usage: bruh
+ * Status: bruh
+ */
 import bringtoICPC.*
 
 class rsq(val arr:IntArray) {
