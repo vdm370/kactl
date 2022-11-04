@@ -1,11 +1,10 @@
-package bringtoICPC.Corn
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
- * Usage: bruh
+ * Description: two types of gcd
+ * Usage: skill issue
  * Status: bruh
  */
 tailrec fun gcd(a: Int, b: Int): Int {

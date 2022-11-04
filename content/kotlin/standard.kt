@@ -1,11 +1,10 @@
-package bringtoICPC
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
- * Usage: bruh
+ * Description: my usual template
+ * Usage: just use
  * Status: bruh
  */
 // 2022.11.03 at 13:22:33 GMT
@@ -117,10 +116,7 @@ object Reader{
     }
     fun nextString():String{
         val ret = StringBuilder()
-        while (true){
-            c = char
-            if(!isWhitespace(c)){ break}
-        }
+        while (true){ c = charif(!isWhitespace(c)){ break}}
         ret.append(c)
         while (true){
             c = char
@@ -132,13 +128,9 @@ object Reader{
     fun isWhitespace(c:Char):Boolean{
         return c == ' ' || c == '\n' || c == '\r' || c == '\t'
     }
-    fun rerouteInput(){
-        val S = fakein.toString()
+    fun rerouteInput(str:String){
         println("New Case ")
-        println(S.take(80))
-        println("...")
-        fakein.clear()
-        IN = BufferedInputStream(S.byteInputStream(),BS)
+        IN = BufferedInputStream(str.byteInputStream(),BS)
     }
     fun flush(){
         OUT.flush()
@@ -160,7 +152,6 @@ fun share(aa:Any){
     else{Reader.fakein.append(aa.toString())}
     Reader.fakein.append("\n")
 }
-
 val getint:Int get(){ val ans = getlong ; if(ans > Int.MAX_VALUE) IntArray(1000000000); return ans.toInt() }
 val getlong:Long get() = Reader.nextLong()
 val getstr:String get() = Reader.nextString()
@@ -187,53 +178,11 @@ fun assert(a:Boolean){
     if(!a){
         throw Exception("Failed Assertion")
     }}
-enum class solveMode {
-    real, rand, tc
-}
-object solve{
-    var mode:solveMode = solveMode.real
-    var tcNum:Int = 0
-    var rand:()->Unit = {}
-    var TC:MutableMap<Int,()->Unit> = mutableMapOf()
-    var tn:Long = 0
-    fun cases(onecase:()->Unit){
-        val t = if(mode == solveMode.real){if(singleCase) 1 else getint} else if(mode == solveMode.tc){1 } else randCount
-        if(t == 1 && mode != solveMode.real){
-            tn = System.currentTimeMillis()
-        }
-        repeat(t){
-            if(mode == solveMode.tc){
-                TC[tcNum]?.let { it() }
-                Reader.rerouteInput()
-            }else if(mode == solveMode.rand){
-                rand()
-                Reader.rerouteInput()
-            }
-            onecase()
-        }
-        if(t == 1 && mode != solveMode.real){
-            val dt = System.currentTimeMillis() - tn
-            println("Time $dt ms ")
-        }
-    }
-    fun rand(a:()->Unit){
-        this.rand = a
-    }
-    fun tc(id:Int = 0,a:()->Unit){
-        TC[id] = a
-    }
-    fun usetc(a:Int = 0 ){
-        this.tcNum = a
-        this.mode = solveMode.tc
-    }
-    fun userand(){
-        this.mode = solveMode.rand
-    }
-}
+
 
 const val singleCase = true
 fun main(){
-    solve.cases{
+    repeat(1){
 
 
 

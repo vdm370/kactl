@@ -1,18 +1,13 @@
-package bringtoICPC.Task
+
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: I promise if a generating function problem appears in WF, I 200 percent solve it
  * Usage: bruh
  * Status: bruh
  */
-import math.FACT
-import math.FFT
-import math.additiveInverse
-import math.intPowEXP
-
 class series(val arr:IntArray){
     operator fun get(i:Int) = arr[i]
     operator fun set(i:Int, v:Int){ arr[i] = v }
@@ -113,7 +108,6 @@ class series(val arr:IntArray){
         val first = (sack.multiply(lead.inverse()).log().multiply((v % pI).toInt())).exp().multiply(newlead)
         return series(IntArray(this.size){if(it < startfrom) 0 else first[it - startfrom.toInt()]})
     }
-
     fun shift(v:Int):series{
         //this is slow log square method
         if(this.arr.size == 1) return this
@@ -127,20 +121,6 @@ class series(val arr:IntArray){
             return A.plus(B.times(X,this.arr.size))
         }
         //replace x by x+v
-    }
-    override fun toString(): String {
-        return arr.joinToString(" ")
-    }
-
-    override fun equals(other:Any?):Boolean {
-        if(this === other) return true
-        if(javaClass != other?.javaClass) return false
-
-        other as series
-
-        if(!arr.contentEquals(other.arr)) return false
-
-        return true
     }
 }
 

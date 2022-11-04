@@ -1,24 +1,16 @@
-package bringtoICPC.DS
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: range sum query
  * Usage: bruh
  * Status: bruh
  */
-import bringtoICPC.*
-
 class rsq(val arr:IntArray) {
     val ps = LongArray(arr.size + 1)
-    constructor(arr:List<Int>):this(arr.toIntArray()){
-
-    }
     init{
-        for(i in 0 until arr.size){
-            ps[i+1] = ps[i] + arr[i]
-        }
+        for(i in 0 until arr.size){ ps[i+1] = ps[i] + arr[i] }
     }
     fun sumQuery(l:Int,r:Int):Long{
         if(l > r || l >= arr.size || r < 0) return 0L
@@ -27,19 +19,10 @@ class rsq(val arr:IntArray) {
         return ps[rr] - ps[ll]
     }
 }
-fun IntArray.torsq(): rsq {
-    return rsq(this)
-}
-fun List<Int>.torsq():rsq{
-    return rsq(this)
-}
-
 class rsqArrModded(val arr:IntArray){
     val ps = IntArray(arr.size + 1)
     init{
-        for(i in 0 until arr.size){
-            ps[i+1] = ps[i] mp arr[i]
-        }
+        for(i in 0 until arr.size){ ps[i+1] = ps[i] mp arr[i] }
     }
     fun sumQuery(l:Int,r:Int): Int {
         val ll = maxOf(l,0)

@@ -1,10 +1,9 @@
-package bringtoICPC.DS
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: DSU parity, with path compression
  * Usage: bruh
  * Status: bruh
  */

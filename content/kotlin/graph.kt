@@ -1,10 +1,9 @@
-package bringtoICPC.DS
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: Linked list graph template
  * Usage: bruh
  * Status: bruh
  */
@@ -75,9 +74,6 @@ class Graph(val n:Int, val m:Int, val directed:Boolean) {
     val hasDFSorder:Boolean get() = preorder.size == n
     var parentEdge:IntArray = IntArray(0)
 
-    var entryTime:IntArray = IntArray(0)
-    var exitTime:IntArray = IntArray(0)
-
     //stores the order
     fun treeOrderDFS(withEdges:Boolean = false){
         parent = IntArray(n){-1}
@@ -101,50 +97,6 @@ class Graph(val n:Int, val m:Int, val directed:Boolean) {
             }
         }
     }
-    //One off, does not store order
-    inline fun anyOrderExplore(root:Int?,newroot:(r:Int) ->Unit, act:(form:Int, to:Int, root:Int, e:Int, spanning:Boolean)->Unit) {
-        // null -> Exhaust
-        parent = IntArray(n){-1}
-        val explored = BooleanArray(n)
-        Q.clear()
-//        val Q = fastDeque(0,n)
-        for(i in 0 until n){
-            if(explored[i] || (root != null && root != i) ) continue
-            newroot(i)
-            Q.addLast(i)
-            parent[i] = i
-            while(Q.isNotEmpty()){
-                val a = Q.removeLast()
-                NS_E(a) { e,v ->
-                    if (v == parent[v]) return@NS_E
-                    val newedge = !explored[v]
-                    if (newedge) {
-                        parent[v] = a
-                        Q.addLast(v)
-                        explored[v] = true
-                    }
-                    act(a, v, i, e,newedge)
-                }
-            }
-            if(root != null) break
-        }
-    }
-    fun EulerDoubleOrder(): Pair<IntArray, IntArray> {
-        var pointer = -1
-        val euler = IntArray(2 * n - 1)
-        val entry = IntArray(n)
-        fun dfs(v:Int, p:Int) {
-            euler[++pointer] = v
-            entry[v] = pointer
-            NS(v){ w->
-                if(w == p) return@NS
-                dfs(w,v)
-                euler[++pointer] = v
-            }
-        }
-        dfs(root,-1)
-        return Pair(euler, entry)
-    }
     inline fun BFS(distRoot:Int, reached:(Int, Int)->Unit = {_,_ ->}): IntArray {
         Q.clear()
         val explored = IntArray(n+1){-1} // also store parents
@@ -166,37 +118,6 @@ class Graph(val n:Int, val m:Int, val directed:Boolean) {
         }
         return dist
     }
-    inline fun trueOrderDFS(root:Int?,newroot:(r:Int) ->Unit, preexplore:(v:Int) ->Unit, postExplore:(v:Int)->Unit ){
-        Q.clear()
-        val explored = BooleanArray(n){false}
-        val headHere = head.copyOf()
-        for(i in 0 until n) {
-            if (explored[i] || (root != null && root != i)) continue
-            newroot(i)
-            explored[i] = true
-            Q.addLast(i)
-            while(Q.isNotEmpty()){
-                val v = Q.last()
-                val e = headHere[v]
-                if(e == head[v]){
-                    preexplore(v)
-                }
-                if(e == -1){
-                    postExplore(v)
-                    Q.removeLast()
-                    continue
-                }
-                headHere[v] = next[e]
-                val t = to[e]
-                if(!explored[t]){
-                    explored[t] = true
-                    Q.addLast(t)
-                }
-            }
-        }
-    }
-
-
     //standard graph transversal orders
     inline fun leafFirst(act:(Int)->Unit){
         if(!hasDFSorder) treeOrderDFS()
@@ -210,87 +131,9 @@ class Graph(val n:Int, val m:Int, val directed:Boolean) {
             act(a)
         }
     }
-    inline fun anyOrder(act:(Int)->Unit){
-        for(i in 0 until n){
-            act(i)
-        }
-    }
-    inline fun rootFirstEdge(act:(from:Int, to:Int, e:Int)->Unit){
-        if(!hasDFSorder) treeOrderDFS(true)
-        for(i in 1 until preorder.size){
-            val v = preorder[i]
-            act(parent[v],v,parentEdge[v])
-        }
-    }
-
-    // Basic invariants maintaining
-    fun calculateParents():IntArray{
-        if(!hasDFSorder) treeOrderDFS()
-        return parent
-    }
-    fun calculateSizes():IntArray{
-        val ret = IntArray(n){1}
-        leafFirst { v -> if(v != root) ret[parent[v]] += ret[v] }
-        return ret
-    }
-    fun calculateSubtreeSum(weights:IntArray){
-        leafFirst { v -> if(v != root) weights[parent[v]] += weights[v] }
-    }
-    fun calculateDepth(): IntArray {
-        val ret = IntArray(n)
-        rootFirst { v -> if(v != root) ret[v] = ret[parent[v]] + 1  }
-        return ret
-    }
     inline fun subs(v:Int, act:(Int)->Unit){
         NS(v){w ->
             if(w != parent[v]) act(w)
         }
     }
-    fun calculateDepthWeighted(): LongArray {
-        val ret = LongArray(n)
-        rootFirstEdge{from,to,e -> ret[to] = ret[from] + weights[e]}
-        return ret
-    }
-    fun outdegree():IntArray{
-        val ret = IntArray(n)
-        everyEdge { a, b -> ret[a] ++  }
-        return ret
-    }
-    fun indegree():IntArray{
-        val ret = IntArray(n)
-        everyEdge {a, b -> ret[b] ++}
-        return ret
-    }
-    fun degree():IntArray = outdegree()
-    fun reversed():Graph{
-        assert(directed)
-        val new = Graph(n,m,true)
-        everyEdge { a, b -> new.add(b,a) }
-        return new
-    }
-    fun intime():IntArray{
-        val tin = IntArray(n)
-        if(!hasDFSorder) treeOrderDFS()
-        for(i in 0 until n) tin[preorder[i]] = i
-        return tin
-    }
-    fun outtime():IntArray{
-        val tout = intime()
-        leafFirst { v ->
-            val p = parent[v]
-            if(p == v) return@leafFirst
-            tout[p] = maxOf(tout[p], tout[v])
-        }
-        return tout
-    }
-    fun markcomponent():IntArray{
-        val ret = IntArray(n)
-        rootFirst { v ->
-            if(v == root) return@rootFirst
-            if(parent[v] == root){ ret[v] = v; return@rootFirst}
-            ret[v] = ret[parent[v]]
-        }
-        return ret
-    }
-
 }

@@ -1,16 +1,12 @@
-package bringtoICPC.Task
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: I promise if a fast hadamard transform appears in WF, I 300 percent solve it
  * Usage: bruh
  * Status: bruh
  */
-import math.Rare.eachdivide
-import math.Rare.pointtimes
-
 fun xorTransform(a:IntArray){
     val ret = a
     val n = a.size.countTrailingZeroBits()

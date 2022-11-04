@@ -4,25 +4,17 @@ package bringtoICPC.Task
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: Need to have dijstraks prewritten because I skil issues
  * Usage: bruh
  * Status: bruh
  */
-import Graphs.Neworder.Graph
-import bringtoICPC.phuge
-import java.util.*
-
 data class dijstrakitem(val a:Int, val x:Long):Comparable<dijstrakitem>{
     override fun compareTo(other:dijstrakitem):Int {
-
         return this.x.compareTo(other.x)
     }
-
 }
 fun Graph.dijstrak(d:LongArray):LongArray{
-    //changes the array
     val Q = PriorityQueue<dijstrakitem>()
-//    val Q = TreeSet<item>(comparing<Int?, Long?> {d[it]}.thenBy { it })
     for(i in d.indices){
         if(d[i] == -1L){
             d[i] = phuge
@@ -30,7 +22,6 @@ fun Graph.dijstrak(d:LongArray):LongArray{
             Q.add(dijstrakitem(i,d[i]))
         }
     }
-//    val p = IntArray(n){-1}
     while(Q.isNotEmpty()){
         val p = Q.poll()
         if(p.x != d[p.a]) continue

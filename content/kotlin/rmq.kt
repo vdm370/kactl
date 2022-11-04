@@ -1,16 +1,14 @@
-package bringtoICPC.DS
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: range minimyum query, but can do max easily
  * Usage: bruh
  * Status: bruh
  */
 typealias rmqType = Int
 typealias rmqArrayType = IntArray
-
 class rmq(val arr: rmqArrayType){
     val n = arr.size
     val store = mutableListOf<rmqArrayType>()

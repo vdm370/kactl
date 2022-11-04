@@ -1,10 +1,9 @@
-package bringtoICPC
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: integer divisions because it is hard
  * Usage: bruh
  * Status: bruh
  */

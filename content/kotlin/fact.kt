@@ -1,58 +1,18 @@
-package bringtoICPC.Corn
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: Reconsturct a modular number, very useful for debugging
  * Usage: bruh
  * Status: bruh
  */
-import bringtoICPC.*
-
-
 infix fun Long.modM(b:Long):Long{
     return (this * b) % p
 }
 fun Int.additiveInverse():Int{
     return if(this == 0) 0 else pI - this
 }
-
-fun intPowEXP(x:Int,e:Long,m:Int):Int{
-    var X = x
-    var E =e
-    var Y = 1
-    while(E > 0){
-        if(E % 2 == 0L){
-            X = ((1L * X * X) % m).toInt()
-            E = E shr 1
-        }else{
-            Y = ((1L * X * Y) % m).toInt()
-            E -= 1
-        }
-    }
-    return Y
-}
-
-fun pow(x:Long,e:Long,m:Long):Long{
-    var X = x
-    var E =e
-    var Y = 1L
-    while(E > 0){
-        if(E % 2 == 0L){
-            X = (X * X) % m
-            E /= 2
-        }else{
-            Y = (X * Y) % m
-            E -= 1
-        }
-    }
-    return Y
-}
-fun Long.inverse():Long{
-    return pow(this,p-2,p)
-}
-
 fun min_rem(m:Int, r:Int, c:Int):Int {
     if(c < 1){
         return Int.MIN_VALUE
@@ -80,7 +40,6 @@ fun Int.reconstruct():String{
     val denom = (this modDivide num).inverse()
     return "$num / $denom"
 }
-
 class FACT{
     companion object {
         var store = IntArray(0)

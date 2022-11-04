@@ -1,14 +1,12 @@
-package bringtoICPC
 /**
  * Author: arvindf232
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I don't care
+ * Description: Binary search, because I skill issues
  * Usage: bruh
  * Status: bruh
  */
-
 inline fun BinarySearchFirstTrue(l:Int, r:Int, isTrue:(Int)->Boolean):Int?{
     var L = l
     var R = r+1
