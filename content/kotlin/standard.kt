@@ -24,6 +24,7 @@ infix fun Int.mm(b:Int):Int{ return ((this.toLong() * b) % pI).toInt() }
 infix fun Int.mp(b:Int):Int{ val ans = this + b;return if(ans >= pI) ans - pI else ans }
 infix fun Int.ms(b:Int):Int{ val ans = this - b;return if(ans < 0) ans + pI else ans }
 fun Int.inverse():Int = intPow(this,pI-2,pI)
+fun Int.additiveInverse():Int{ return if(this == 0) 0 else pI - this }
 infix fun Int.modDivide(b:Int):Int{ return this mm (b.inverse()) }
 fun intPow(x:Int,e:Int,m:Int):Int{
     var X = x ; var E =e ; var Y = 1

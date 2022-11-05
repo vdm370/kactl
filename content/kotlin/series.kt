@@ -4,9 +4,7 @@
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I promise if a generating function problem appears in WF, I 200 percent solve it
- * Usage: bruh
- * Status: bruh
+ * Description: Genfun in WF = free
  */
 class series(val arr:IntArray){
     operator fun get(i:Int) = arr[i]

@@ -3,9 +3,7 @@
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: I promise if a fast hadamard transform appears in WF, I 300 percent solve it
- * Usage: bruh
- * Status: bruh
+ * Description: fast hadamard transform in WF = free
  */
 fun xorTransform(a:IntArray){
     val ret = a

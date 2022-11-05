@@ -5,8 +5,6 @@ package bringtoICPC.Task
  * License: CC0
  * Source: me
  * Description: Need to have dijstraks prewritten because I skil issues
- * Usage: bruh
- * Status: bruh
  */
 data class dijstrakitem(val a:Int, val x:Long):Comparable<dijstrakitem>{
     override fun compareTo(other:dijstrakitem):Int {

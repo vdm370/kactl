@@ -4,9 +4,7 @@
  * Date: 2022-04-11
  * License: CC0
  * Source: me
- * Description: FFT. I promise if an FFT question appears in WF, I will 100 percent solve it.
- * Usage: bruh
- * Status: bruh
+ * Description: FFT in WF = free
  */
 class FFT {
     companion object{
